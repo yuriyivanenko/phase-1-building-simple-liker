@@ -3,9 +3,35 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+const handleServerError = (err) => {
+  const modal = document.querySelector('#modal')
+  modal.querySelector('#modal-message').textContent = err
+  modal.className = ''
+  setTimeout(hideErrorModal,3000)
+}
 
+const hideErrorModal = () => {
+  document.querySelector('#modal').className = 'hidden'
+}
 
+const handleServerSuccess = (res) => {
+  const heart = document.querySelector('.like').firstElementChild
+  if(heart.className === 'like-glyph'){
+    heart.textContent = FULL_HEART
+    heart.className = 'activated-heart'
+  }else if(heart.className === 'activated-heart'){
+    heart.textContent = EMPTY_HEART
+    heart.className = 'like-glyph'
+  }
+}
 
+const handleLikeComment = () => {
+  mimicServerCall()
+  .then(handleServerSuccess)
+  .catch(handleServerError)
+}
+
+document.querySelectorAll('.like').forEach(item => item.addEventListener('click', handleLikeComment))
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
@@ -24,21 +50,3 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
   });
 }
 
-const hideErrorModal = () => {
-  document.querySelector('#modal').className = 'hidden'
-}
-
-const handleError = (err) => {
-  const modal = document.querySelector('#modal')
-  modal.querySelector('#modal-message').textContent = err
-  modal.className = ''
-  setTimeout(hideErrorModal,3000)
-}
-
-const likeComment = () => {
-  mimicServerCall()
-  .then(res => console.log(res))
-  .catch(handleError)
-}
-
-document.querySelectorAll('.like').forEach(item => item.addEventListener('click', likeComment))
