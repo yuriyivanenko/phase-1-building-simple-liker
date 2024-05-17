@@ -14,20 +14,21 @@ const hideErrorModal = () => {
   document.querySelector('#modal').className = 'hidden'
 }
 
-const handleServerSuccess = (res) => {
-  const heart = document.querySelector('.like').firstElementChild
-  if(heart.className === 'like-glyph'){
-    heart.textContent = FULL_HEART
-    heart.className = 'activated-heart'
-  }else if(heart.className === 'activated-heart'){
-    heart.textContent = EMPTY_HEART
-    heart.className = 'like-glyph'
+const handleServerSuccess = (res, heartTarget) => {
+  document.querySelector('#modal').className = 'hidden'
+  if(heartTarget.className === 'like-glyph'){
+    heartTarget.textContent = FULL_HEART
+    heartTarget.className = 'activated-heart'
+  }else if(heartTarget.className === 'activated-heart'){
+    heartTarget.textContent = EMPTY_HEART
+    heartTarget.className = 'like-glyph'
   }
 }
 
-const handleLikeComment = () => {
+const handleLikeComment = (event) => {
+  const heartTarget = event.target
   mimicServerCall()
-  .then(handleServerSuccess)
+  .then(res => handleServerSuccess(res, heartTarget))
   .catch(handleServerError)
 }
 
