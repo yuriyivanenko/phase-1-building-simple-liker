@@ -24,9 +24,13 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
   });
 }
 
-const handleError = () => document.querySelector('#modal').className = '';
+const handleError = (err) => {
+  const modal = document.querySelector('#modal')
+  modal.querySelector('#modal-message').textContent = err
+  modal.className = ''
+}
 
-const likeComment = (e) => {
+const likeComment = () => {
   mimicServerCall()
   .then(res => console.log(res))
   .catch(handleError)
