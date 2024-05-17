@@ -24,10 +24,15 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
   });
 }
 
+const hideErrorModal = () => {
+  document.querySelector('#modal').className = 'hidden'
+}
+
 const handleError = (err) => {
   const modal = document.querySelector('#modal')
   modal.querySelector('#modal-message').textContent = err
   modal.className = ''
+  setTimeout(hideErrorModal,3000)
 }
 
 const likeComment = () => {
