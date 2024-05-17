@@ -23,3 +23,13 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
     }, 300);
   });
 }
+
+const handleError = () => document.querySelector('#modal').className = '';
+
+const likeComment = (e) => {
+  mimicServerCall()
+  .then(res => console.log(res))
+  .catch(handleError)
+}
+
+document.querySelectorAll('.like').forEach(item => item.addEventListener('click', likeComment))
